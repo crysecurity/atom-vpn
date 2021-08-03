@@ -1,0 +1,68 @@
+{
+    "name": "cr4sec/atom-vpn",
+    "description": "Package for working with the Atom VPN API",
+    "type": "library",
+    "version": "1.1.0",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "php",
+        "atom",
+        "vpn",
+        "api",
+        "package"
+    ],
+    "support": {
+        "issues": "https://github.com/crysecurity/atom-vpn/issues",
+        "source": "https://github.com/crysecurity/atom-vpn"
+    },
+    "homepage": "https://github.com/crysecurity/atom-vpn",
+    "authors": [
+        {
+            "name": "Dubinskii Artem",
+            "email": "cr4sec@gmail.com",
+            "homepage": "https://github.com/crysecurity",
+            "role": "Developer"
+        }
+    ],
+    "scripts": {
+        "test": "phpunit"
+    },
+    "require": {
+        "php": "^7.3",
+        "illuminate/console": "^8.0",
+        "illuminate/database": "^6.0|^7.0|^8.0",
+        "illuminate/http": "^8.0",
+        "illuminate/routing": "^8.0",
+        "illuminate/support": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cr4sec\\AtomVPN\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Cr4sec\\AtomVPN\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Cr4sec\\AtomVPN\\AtomVPNServiceProvider"
+            ],
+            "aliases": {
+                "AtomVPN": "Cr4sec\\AtomVPN\\Facades\\AtomVPN"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.5"
+    }
+}
