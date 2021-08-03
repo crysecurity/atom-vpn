@@ -7,6 +7,10 @@ use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 use Cr4sec\AtomVPN\Models\Session;
 
+/**
+ * Class ClearingUnusedSessions
+ * @package Cr4sec\AtomVPN\Commands
+ */
 class ClearingUnusedSessions extends Command
 {
     /**

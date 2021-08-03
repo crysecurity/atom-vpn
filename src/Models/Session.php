@@ -40,7 +40,7 @@ class Session extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_uuid', 'uuid');
+        return $this->belongsTo(config('atom_vpn.user_model'), 'user_uuid', 'uuid');
     }
 
     public function scopeReserved(Builder $query): Builder

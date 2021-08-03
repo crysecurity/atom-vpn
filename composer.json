@@ -2,7 +2,7 @@
     "name": "cr4sec/atom-vpn",
     "description": "Package for working with the Atom VPN API",
     "type": "library",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "license": "MIT",
     "keywords": [
         "laravel",

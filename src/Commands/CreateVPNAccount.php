@@ -9,6 +9,10 @@ use Cr4sec\AtomVPN\Exceptions\AtomVpnException;
 use Cr4sec\AtomVPN\Models\Account;
 use Psr\SimpleCache\InvalidArgumentException;
 
+/**
+ * Class CreateVPNAccount
+ * @package Cr4sec\AtomVPN\Commands
+ */
 class CreateVPNAccount extends Command
 {
     /**

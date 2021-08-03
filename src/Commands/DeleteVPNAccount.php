@@ -8,6 +8,10 @@ use Cr4sec\AtomVPN\Exceptions\AtomVpnException;
 use Cr4sec\AtomVPN\Models\Account;
 use Psr\SimpleCache\InvalidArgumentException;
 
+/**
+ * Class DeleteVPNAccount
+ * @package Cr4sec\AtomVPN\Commands
+ */
 class DeleteVPNAccount extends Command
 {
     /**

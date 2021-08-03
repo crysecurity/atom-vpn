@@ -35,7 +35,8 @@ class CreateAtomVpnServerSessionsTable extends Migration
             $table
                 ->foreign('account_id')
                 ->references('id')
-                ->on('atom_vpn_accounts');
+                ->on('atom_vpn_accounts')
+                ->onDelete('cascade');
 
             $table
                 ->foreign('user_uuid')
