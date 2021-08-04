@@ -26,23 +26,37 @@ use Illuminate\Foundation\Auth\User;
  */
 class Session extends Model
 {
+    /** @var string  */
     protected $table = 'atom_vpn_server_sessions';
 
+    /**
+     * @return BelongsTo
+     */
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function server(): BelongsTo
     {
         return $this->belongsTo(Server::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(config('atom_vpn.user_model'), 'user_uuid', 'uuid');
     }
 
+    /**
+     * @param  Builder  $query
+     * @return Builder
+     */
     public function scopeReserved(Builder $query): Builder
     {
         return $query
@@ -55,6 +69,10 @@ class Session extends Model
             );
     }
 
+    /**
+     * @param  Builder  $query
+     * @return Builder
+     */
     public function scopeOpen(Builder $query): Builder
     {
         return $query
@@ -62,6 +80,10 @@ class Session extends Model
             ->whereNull('closed_at');
     }
 
+    /**
+     * @param  Builder  $query
+     * @return Builder
+     */
     public function scopeExpired(Builder $query): Builder
     {
         return $query
@@ -70,9 +92,13 @@ class Session extends Model
                 'created_at',
                 '<',
                 Carbon::now()->subHours(config('atom_vpn.session_lifetime_hours'))
-            );
+            )->orWhere();
     }
 
+    /**
+     * @param  Builder  $query
+     * @return Builder
+     */
     public function scopeEmpty(Builder $query): Builder
     {
         return $query
@@ -85,6 +111,9 @@ class Session extends Model
             );
     }
 
+    /**
+     * @return bool
+     */
     public function start(): bool
     {
         $this->started_at = Carbon::now();
@@ -92,6 +121,9 @@ class Session extends Model
         return $this->save();
     }
 
+    /**
+     * @return bool
+     */
     public function close(): bool
     {
         $this->closed_at = Carbon::now();

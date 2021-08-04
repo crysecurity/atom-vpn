@@ -2,6 +2,8 @@
 
 namespace Cr4sec\AtomVPN;
 
+use Cr4sec\AtomVPN\Models\Session;
+use Cr4sec\AtomVPN\Observers\SessionObserver;
 use Illuminate\Support\ServiceProvider;
 use Cr4sec\AtomVPN\Commands\ClearingUnusedSessions;
 use Cr4sec\AtomVPN\Commands\CreateVPNAccount;
@@ -28,6 +30,8 @@ class AtomVPNServiceProvider extends ServiceProvider
                 ClearingUnusedSessions::class
             ]);
         }
+
+        Session::observe(SessionObserver::class);
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');

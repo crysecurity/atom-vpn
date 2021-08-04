@@ -28,6 +28,15 @@ class DeleteVPNAccount extends Command
      */
     protected $description = 'Deleting VPN accounts';
 
+    private function prepareVpnUsernamesArgument(string $vpnUsernames): array
+    {
+        return array_values(
+            array_filter(
+                explode(',', $vpnUsernames)
+            )
+        );
+    }
+
     /**
      * Create a new command instance.
      *
@@ -45,15 +54,9 @@ class DeleteVPNAccount extends Command
      */
     public function handle(AtomVPN $atomVPN): int
     {
-        $vpnUsernames = $this->argument('vpn_usernames');
+        $vpnUsernames = $this->prepareVpnUsernamesArgument($this->argument('vpn_usernames'));
 
-        $vpnUsernames = array_values(
-            array_filter(
-                explode(',', $vpnUsernames)
-            )
-        );
-
-        foreach ($vpnUsernames as $vpnUsername) {
+        $this->withProgressBar($vpnUsernames, function (string $vpnUsername) use ($atomVPN) {
             try {
                 $atomVPN->deleteAccount($vpnUsername);
 
@@ -65,7 +68,7 @@ class DeleteVPNAccount extends Command
             } catch (AtomVpnException $exception) {
                 $this->error($exception->getMessage());
             }
-        }
+        });
 
         return self::SUCCESS;
     }

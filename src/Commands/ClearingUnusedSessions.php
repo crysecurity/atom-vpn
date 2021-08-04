@@ -55,17 +55,9 @@ class ClearingUnusedSessions extends Command
      */
     public function handle(): int
     {
-        $sessions = Session::whereNull('started_at')
-            ->whereNull('closed_at')
-            ->where('created_at', '<=', Carbon::now()->subMinutes(5))
+        $sessions = Session::empty()
             ->orWhere(function (Builder $query) {
-                $query
-                    ->whereNull('closed_at')
-                    ->where(
-                        'started_at',
-                        '<=',
-                        Carbon::now()->subHours(config('atom_vpn.session_lifetime_hours'))
-                    );
+                $query->expired();
             })
             ->get();
 
@@ -76,19 +68,11 @@ class ClearingUnusedSessions extends Command
         }
 
         if ($this->isIgnoreWarning() || $this->confirm($this->getConfirmationText($sessions->count()))) {
-            $counter = 0;
-
-            $sessions->each(function (Session $session) use (&$counter) {
+            $this->withProgressBar($sessions, function (Session $session) use (&$counter) {
                 if (!$session->delete()) {
                     $this->error('Couldn\'t delete session with ID ' . $session->id);
-                } else {
-                    $counter++;
                 }
             });
-
-            if ($counter) {
-                $this->info("$counter sessions were successfully deleted");
-            }
         }
 
         return self::SUCCESS;

@@ -27,13 +27,20 @@ use Psr\SimpleCache\InvalidArgumentException;
  */
 class Account extends Model
 {
+    /** @var string  */
     protected $table = 'atom_vpn_accounts';
 
+    /**
+     * @return HasMany
+     */
     public function users(): HasMany
     {
         return $this->hasMany(config('atom_vpn.user_model'));
     }
 
+    /**
+     * @return HasMany
+     */
     public function sessions(): HasMany
     {
         return $this->hasMany(Session::class, 'account_id', 'id');
@@ -69,6 +76,9 @@ class Account extends Model
         throw new AtomVpnException('Empty fields username and password', 500);
     }
 
+    /**
+     * @return Account|null
+     */
     public static function findFirstFreeAccount(): ?Account
     {
         return self::query()
@@ -83,11 +93,19 @@ class Account extends Model
             ->first();
     }
 
+    /**
+     * @param  Builder  $query
+     * @return Builder
+     */
     public function scopeExpiredAccounts(Builder $query): Builder
     {
         return $query->where('expires_at', '<', Carbon::now());
     }
 
+    /**
+     * @param  Server  $server
+     * @return Session
+     */
     public function reserveSession(Server $server): Session
     {
         $session = new Session;

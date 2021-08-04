@@ -30,6 +30,10 @@ class Server extends Model
         'free' => 'bool'
     ];
 
+    /**
+     * @param $value
+     * @return string
+     */
     public function getIconAttribute($value): string
     {
         return env('APP_URL') . $value;
