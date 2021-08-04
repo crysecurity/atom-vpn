@@ -41,7 +41,7 @@ class CreateAtomVpnServerSessionsTable extends Migration
             $table
                 ->foreign('user_uuid')
                 ->references('uuid')
-                ->on((new $userModel)->getTable());
+                ->onDelete((new $userModel)->getTable());
         });
     }
 
