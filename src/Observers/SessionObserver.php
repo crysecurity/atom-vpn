@@ -12,10 +12,10 @@ class SessionObserver
         if (
             config('atom_vpn.close_open_sessions_before_opening_a_new_one') &&
             $session->isDirty('started_at') &&
-            $session->getDirty()['started_at'] === null
+            $session->getOriginal('started_at') === null
         ) {
             $session
-                ->user()
+                ->user
                 ->sessions()
                 ->open()
                 ->get()
