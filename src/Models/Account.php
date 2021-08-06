@@ -67,7 +67,7 @@ class Account extends Model
             $account->uuid = $uuid;
             $account->vpn_username = $username;
             $account->vpn_password = $password;
-            $account->expires_at = Carbon::now()->addDays(30);
+            $account->expires_at = Carbon::now()->addMonth();
             $account->save();
 
             return $account;
