@@ -101,8 +101,12 @@ class Account extends Model
     public static function findFirstFreeAccount(): ?Account
     {
         return self::query()
-            ->withCount(['sessions' => function ($query) {
-                $query->open();
+            ->withCount(['sessions' => function (Builder $query) {
+                $query
+                    ->open()
+                    ->orWhere(function (Builder $subQuery) {
+                        $subQuery->reserved();
+                    });
             }])
             ->having(
                 'sessions_count',
