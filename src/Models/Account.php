@@ -3,7 +3,9 @@
 namespace Cr4sec\AtomVPN\Models;
 
 use Carbon\Carbon;
+use Database\Factories\AccountFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Cr4sec\AtomVPN\AtomVPN;
@@ -27,8 +29,25 @@ use Psr\SimpleCache\InvalidArgumentException;
  */
 class Account extends Model
 {
+    use HasFactory;
+
     /** @var string  */
     protected $table = 'atom_vpn_accounts';
+
+    /**
+     * @return AccountFactory
+     */
+    protected static function newFactory(): AccountFactory
+    {
+        return AccountFactory::new();
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope('active', static function (Builder $builder) {
+            $builder->where('expires_at', '>', now());
+        });
+    }
 
     /**
      * @return HasMany

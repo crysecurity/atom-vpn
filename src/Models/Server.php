@@ -3,6 +3,8 @@
 namespace Cr4sec\AtomVPN\Models;
 
 use Carbon\Carbon;
+use \Database\Factories\ServerFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -19,6 +21,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Server extends Model
 {
+    use HasFactory;
+
+    /**
+     * @return ServerFactory
+     */
+    protected static function newFactory(): ServerFactory
+    {
+        return ServerFactory::new();
+    }
+
     protected $table = 'atom_vpn_servers';
 
     protected $hidden = [

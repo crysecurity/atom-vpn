@@ -3,7 +3,9 @@
 namespace Cr4sec\AtomVPN\Models;
 
 use Carbon\Carbon;
+use Database\Factories\SessionFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User;
@@ -26,8 +28,15 @@ use Illuminate\Foundation\Auth\User;
  */
 class Session extends Model
 {
+    use HasFactory;
+
     /** @var string  */
     protected $table = 'atom_vpn_server_sessions';
+
+    protected static function newFactory(): SessionFactory
+    {
+        return SessionFactory::new();
+    }
 
     /**
      * @return BelongsTo
