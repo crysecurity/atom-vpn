@@ -86,7 +86,12 @@ class Session extends Model
     {
         return $query
             ->whereNotNull('started_at')
-            ->whereNull('closed_at');
+            ->whereNull('closed_at')
+            ->where(
+                'started_at',
+                '>=',
+                Carbon::now()->subHours(config('atom_vpn.session_lifetime_hours'))
+            );
     }
 
     /**
@@ -96,12 +101,24 @@ class Session extends Model
     public function scopeExpired(Builder $query): Builder
     {
         return $query
-            ->open()
+            ->whereNotNull('started_at')
+            ->whereNull('closed_at')
             ->where(
-                'created_at',
+                'started_at',
                 '<',
                 Carbon::now()->subHours(config('atom_vpn.session_lifetime_hours'))
-            )->orWhere();
+            );
+    }
+
+    /**
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public function scopeClosed(Builder $query): Builder
+    {
+        return $query
+            ->whereNotNull('started_at')
+            ->whereNotNull('closed_at');
     }
 
     /**
